@@ -71,6 +71,12 @@ public class KAryTreeNode<T> extends AbstractNode<T> implements Node<T> {
         }
     }
 
+    public void insert(T data) {
+        KAryTreeNode<T> child = new KAryTreeNode<T>(getK());
+        child.setData(data);
+        addChild(child);
+    }
+
     public void addChildAt(int index, KAryTreeNode<T> child) {
         if(index >= k) {
             throw new IndexOutOfBoundsException("This node can only have " + k + " children, which implies that only positions 0 through " + (k - 1) + " are available");
@@ -85,6 +91,12 @@ public class KAryTreeNode<T> extends AbstractNode<T> implements Node<T> {
                 this.children.add(index, child);
             }
         }
+    }
+
+    public void insertAt(int index, T data) {
+        KAryTreeNode<T> child = new KAryTreeNode<T>(getK());
+        child.setData(data);
+        addChildAt(index, child);
     }
 
     public KAryTreeNode<T> getChildAt(int index) {

@@ -9,9 +9,9 @@ import java.util.List;
  * Date: May 26, 2010
  * Time: 11:12:20 AM
  */
-public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tree<T, BinaryNode<T>> {
+public class BinaryTree<T> extends AbstractTree<T, BinaryTreeNode<T>> implements Tree<T, BinaryTreeNode<T>> {
 
-    public BinaryTree(BinaryNode<T> root) {
+    public BinaryTree(BinaryTreeNode<T> root) {
         super(root);
     }
 
@@ -19,21 +19,21 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         int numberOfNodes = 0;
 
         if(root != null) {
-            numberOfNodes = auxiliarySize(root) + 1; //1 for the root!
+            numberOfNodes = _size(root) + 1; //1 for the root!
         }
 
         return numberOfNodes;
     }
 
-    private int auxiliarySize(BinaryNode<T> node) {
+    private int _size(BinaryTreeNode<T> node) {
         int numberOfNodes = node.numberOfChildren();
 
         if(node.hasLeft()) {
-            numberOfNodes += auxiliarySize(node.getLeft());
+            numberOfNodes += _size(node.getLeft());
         }
 
         if(node.hasRight()) {
-            numberOfNodes += auxiliarySize(node.getRight());
+            numberOfNodes += _size(node.getRight());
         }
 
         return numberOfNodes;
@@ -43,18 +43,18 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         return (find(data) != null);
     }
 
-    public BinaryNode<T> find(Object data) {
-        BinaryNode<T> returnNode = null;
+    public BinaryTreeNode<T> find(Object data) {
+        BinaryTreeNode<T> returnNode = null;
 
         if(this.root != null) {
-            returnNode = auxiliaryFind(root, data);
+            returnNode = _find(root, data);
         }
 
         return returnNode;
     }
 
-    private BinaryNode<T> auxiliaryFind(BinaryNode<T> currentNode, Object data) {
-        BinaryNode<T> returnNode = null;
+    private BinaryTreeNode<T> _find(BinaryTreeNode<T> currentNode, Object data) {
+        BinaryTreeNode<T> returnNode = null;
 
         if (currentNode.getData().equals(data)) {
             returnNode = currentNode;
@@ -63,19 +63,19 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         else if(currentNode.hasChildren()) {
 
             if(currentNode.hasLeft()) {
-                returnNode = auxiliaryFind(currentNode.getLeft(), data);
+                returnNode = _find(currentNode.getLeft(), data);
             }
 
             if(returnNode == null && currentNode.hasRight()) {
-                returnNode = auxiliaryFind(currentNode.getRight(), data);
+                returnNode = _find(currentNode.getRight(), data);
             }
         }
 
         return returnNode;
     }
 
-    public List<BinaryNode<T>> traversalSequence(TreeTraversalOrder traversalOrder) {
-        List<BinaryNode<T>> returnList = null;
+    public List<BinaryTreeNode<T>> traversalSequence(TreeTraversalOrder traversalOrder) {
+        List<BinaryTreeNode<T>> returnList = null;
 
         if(root != null) {
             returnList = traversalSequence(root, traversalOrder);
@@ -84,8 +84,8 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         return returnList;
     }
 
-    public List<BinaryNode<T>> traversalSequence(BinaryNode<T> node, TreeTraversalOrder traversalOrder) {
-        List<BinaryNode<T>> traversalResult = new ArrayList<BinaryNode<T>>();
+    public List<BinaryTreeNode<T>> traversalSequence(BinaryTreeNode<T> node, TreeTraversalOrder traversalOrder) {
+        List<BinaryTreeNode<T>> traversalResult = new ArrayList<BinaryTreeNode<T>>();
 
         if(traversalOrder == TreeTraversalOrder.PRE_ORDER) {
             preOrderTraversalSequence(node, traversalResult);
@@ -102,7 +102,7 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         return traversalResult;
     }
 
-    private void preOrderTraversalSequence(BinaryNode<T> node, List<BinaryNode<T>> traversalResult) {
+    private void preOrderTraversalSequence(BinaryTreeNode<T> node, List<BinaryTreeNode<T>> traversalResult) {
         traversalResult.add(node);
 
         if(node.hasLeft()) {
@@ -114,7 +114,7 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         }
     }
 
-    private void postOrderTraversalSequence(BinaryNode<T> node, List<BinaryNode<T>> traversalResult) {
+    private void postOrderTraversalSequence(BinaryTreeNode<T> node, List<BinaryTreeNode<T>> traversalResult) {
         if(node.hasLeft()) {
             preOrderTraversalSequence(node.getLeft(), traversalResult);
         }
@@ -126,7 +126,7 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         traversalResult.add(node);
     }
 
-    private void inOrderTraversalSequence(BinaryNode<T> node, List<BinaryNode<T>> traversalResult) {
+    private void inOrderTraversalSequence(BinaryTreeNode<T> node, List<BinaryTreeNode<T>> traversalResult) {
         if(node.hasLeft()) {
             preOrderTraversalSequence(node.getLeft(), traversalResult);
         }
@@ -138,8 +138,8 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         }
     }
 
-    public List<NodeWithDepth<BinaryNode<T>>> traversalSequenceWithDepth(TreeTraversalOrder traversalOrder) {
-        List<NodeWithDepth<BinaryNode<T>>> returnList = null;
+    public List<NodeWithDepth<BinaryTreeNode<T>>> traversalSequenceWithDepth(TreeTraversalOrder traversalOrder) {
+        List<NodeWithDepth<BinaryTreeNode<T>>> returnList = null;
 
         if(root != null) {
             returnList = traversalSequenceWithDepth(root, traversalOrder);
@@ -148,8 +148,8 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         return returnList;
     }
 
-    public List<NodeWithDepth<BinaryNode<T>>> traversalSequenceWithDepth(BinaryNode<T> node, TreeTraversalOrder traversalOrder) {
-        List<NodeWithDepth<BinaryNode<T>>> traversalResult = new ArrayList<NodeWithDepth<BinaryNode<T>>>();
+    public List<NodeWithDepth<BinaryTreeNode<T>>> traversalSequenceWithDepth(BinaryTreeNode<T> node, TreeTraversalOrder traversalOrder) {
+        List<NodeWithDepth<BinaryTreeNode<T>>> traversalResult = new ArrayList<NodeWithDepth<BinaryTreeNode<T>>>();
 
         if(traversalOrder == TreeTraversalOrder.PRE_ORDER) {
             preOrderTraversalSequenceWithDepth(node, traversalResult, 0);
@@ -166,8 +166,8 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         return traversalResult;
     }
 
-    private void preOrderTraversalSequenceWithDepth(BinaryNode<T> node, List<NodeWithDepth<BinaryNode<T>>> traversalResult, int depth) {
-        traversalResult.add(new NodeWithDepthI<BinaryNode<T>>(node, depth));
+    private void preOrderTraversalSequenceWithDepth(BinaryTreeNode<T> node, List<NodeWithDepth<BinaryTreeNode<T>>> traversalResult, int depth) {
+        traversalResult.add(new NodeWithDepthI<BinaryTreeNode<T>>(node, depth));
 
         if(node.hasLeft()) {
             preOrderTraversalSequenceWithDepth(node.getLeft(), traversalResult, depth + 1);
@@ -178,7 +178,7 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
         }
     }
 
-    private void postOrderTraversalSequenceWithDepth(BinaryNode<T> node, List<NodeWithDepth<BinaryNode<T>>> traversalResult, int depth) {
+    private void postOrderTraversalSequenceWithDepth(BinaryTreeNode<T> node, List<NodeWithDepth<BinaryTreeNode<T>>> traversalResult, int depth) {
         if(node.hasLeft()) {
             preOrderTraversalSequenceWithDepth(node.getLeft(), traversalResult, depth + 1);
         }
@@ -187,15 +187,15 @@ public class BinaryTree<T> extends AbstractTree<T, BinaryNode<T>> implements Tre
             preOrderTraversalSequenceWithDepth(node.getRight(), traversalResult, depth + 1);
         }
 
-        traversalResult.add(new NodeWithDepthI<BinaryNode<T>>(node, depth));
+        traversalResult.add(new NodeWithDepthI<BinaryTreeNode<T>>(node, depth));
     }
 
-    private void inOrderTraversalSequenceWithDepth(BinaryNode<T> node, List<NodeWithDepth<BinaryNode<T>>> traversalResult, int depth) {
+    private void inOrderTraversalSequenceWithDepth(BinaryTreeNode<T> node, List<NodeWithDepth<BinaryTreeNode<T>>> traversalResult, int depth) {
         if(node.hasLeft()) {
             preOrderTraversalSequenceWithDepth(node.getLeft(), traversalResult, depth + 1);
         }
 
-        traversalResult.add(new NodeWithDepthI<BinaryNode<T>>(node, depth));
+        traversalResult.add(new NodeWithDepthI<BinaryTreeNode<T>>(node, depth));
 
         if(node.hasRight()) {
             preOrderTraversalSequenceWithDepth(node.getRight(), traversalResult, depth + 1);

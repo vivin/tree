@@ -46,8 +46,16 @@ public class GenericTreeNode<T> extends AbstractNode<T> implements Node<T> {
         this.children.add(child);
     }
 
+    public void insert(T data) {
+        addChild(new GenericTreeNode<T>(data));
+    }
+
     public void addChildAt(int index, GenericTreeNode<T> child) {
         this.children.add(index, child);
+    }
+
+    public void insertAt(int index, T data) {
+        addChildAt(index, new GenericTreeNode<T>(data));
     }
 
     public GenericTreeNode<T> getChildAt(int index) {

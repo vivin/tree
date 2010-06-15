@@ -8,18 +8,26 @@ package main.java.net.vivin.collections;
  */
 public class BinarySearchTreeNode<T extends Comparable> extends AbstractNode<T> implements Node<T> {
 
+    private BinarySearchTreeNode<T> parent;
     private BinarySearchTreeNode<T> left;
     private BinarySearchTreeNode<T> right;
 
     public BinarySearchTreeNode() {
         left = null;
         right = null;
+        parent = null;
     }
 
     public BinarySearchTreeNode(T data) {
         super(data);
         left = null;
         right = null;
+        parent = null;
+    }
+
+    /* Making this package-private. Developers should not be able to change the data of a node */
+    void setData(T data) {
+        this.data = data;
     }
 
     public void removeChildren() {
@@ -53,40 +61,63 @@ public class BinarySearchTreeNode<T extends Comparable> extends AbstractNode<T> 
         return right != null;
     }
 
-    public void setLeft(BinarySearchTreeNode<T> left) {
-        if(left.getData().compareTo(this.data) < 0) {
-            this.left = left;
-        }
-
-        else {
-            throw new IllegalArgumentException("Value of left child in a Binary-Search Tree must be lesser than value of parent");
-        }
-    }
-
-    public void setRight(BinarySearchTreeNode<T> right) {
-        if(right.getData().compareTo(this.data) >= 0) {
-            this.right = right;
-        }
-
-        else {
-            throw new IllegalArgumentException("Value of right child in Binary-Search Tree must be greater than or equal to value of parent");
-        }
-    }
-
     public BinarySearchTreeNode<T> getLeft() {
         return left;
+    }
+
+    /* Making this package-private - developers should only be inserting nodes via the tree's insert() method */
+    void setLeft(BinarySearchTreeNode<T> left) {
+        if(left.data.compareTo(this.data) < 0) {
+            this.left = left;
+            left.parent = this;
+        }
+
+         else {
+            throw new IllegalArgumentException("The data of the left child of a BinarySearchTreeNode must be lesser than the data of the node itself");
+        }
+    }
+
+    /* Making this package-private - developers should only be inserting nodes via the tree's insert() method */
+    void insertLeft(T data) {
+        setLeft(new BinarySearchTreeNode<T>(data));
+    }
+
+    /* Making this package-private - developers should only be inserting nodes via the tree's insert() method */
+    void setRight(BinarySearchTreeNode<T> right) {
+        if(right.data.compareTo(this.data) >= 0) {
+            this.right = right;
+            right.parent = this;
+        }
+
+        else {
+            throw new IllegalArgumentException("The data of the right child of a BinarySearchTreeNode must be greater than or equal to the data of the node itself");
+        }
+    }
+
+    /* Making this package-private - developers should only be inserting nodes via the tree's insert() method */
+    void insertRight(T data) {
+        setRight(new BinarySearchTreeNode<T>(data));
     }
 
     public BinarySearchTreeNode<T> getRight() {
         return right;
     }
 
+    public BinarySearchTreeNode<T> getParent() {
+        return parent;
+    }
+
+    /* Making this package-private - developers should not be able to change the parent of a node. Only the Tree object can */
+    void setParent(BinarySearchTreeNode<T> parent) {
+        this.parent = parent;
+    }
+
     public void removeLeft() {
-        setLeft(null);
+        this.left = null;
     }
 
     public void removeRight() {
-        setRight(null);
+        this.right = null;
     }
 
     @Override

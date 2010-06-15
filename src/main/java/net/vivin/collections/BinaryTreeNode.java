@@ -61,8 +61,16 @@ public class BinaryTreeNode<T> extends AbstractNode<T> implements Node<T> {
         this.left = left;
     }
 
+    public void insertLeft(T data) {
+        setLeft(new BinaryTreeNode<T>(data));
+    }
+
     public void setRight(BinaryTreeNode<T> right) {
         this.right = right;
+    }
+
+    public void insertRight(T data) {
+        setRight(new BinaryTreeNode<T>(data));
     }
 
     public BinaryTreeNode<T> getLeft() {
