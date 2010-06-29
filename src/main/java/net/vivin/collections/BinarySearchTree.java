@@ -154,8 +154,8 @@ public class BinarySearchTree<T extends Comparable> extends AbstractTree<T, Bina
     }
 
     public BinarySearchTreeNode<T> findMinimum(BinarySearchTreeNode<T> node) {
-        while(node.hasRight()) {
-            node = node.getRight();
+        while(node.hasLeft()) {
+            node = node.getLeft();
         }
 
         return node;
@@ -172,8 +172,8 @@ public class BinarySearchTree<T extends Comparable> extends AbstractTree<T, Bina
     }
 
     public BinarySearchTreeNode<T> findMaximum(BinarySearchTreeNode<T> node) {
-        while(node.hasLeft()) {
-            node = node.getLeft();
+        while(node.hasRight()) {
+            node = node.getRight();
         }
 
         return node;
